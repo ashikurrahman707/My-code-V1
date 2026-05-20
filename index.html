@@ -63,48 +63,50 @@ min-height:80px;
 margin:10px 0;
 font-size:16px;
 color:#93c5fd;
+display: flex;
+flex-direction: column;
+gap: 4px;
 }
 
-/* LUXURIOUS NEW SCORE BOX PANEL DISPLAY */
-.score-display-box {
-margin-top: 20px;
+/* PREMIUM NEW SCOREBOARD BOX DESIGN */
+.score-container-box {
+margin: 20px 0;
 background: rgba(15, 23, 42, 0.6);
-border: 2px solid #38bdf8; /* Default premium blue borders */
-padding: 15px;
-border-radius: 14px;
-display: none; /* Revealed by JavaScript click events */
+border: 2px solid #38bdf8; /* Dynamically colored by JavaScript */
+padding: 14px 20px;
+border-radius: 12px;
+display: none; /* Keeps hidden until 'Get Feedback' is clicked */
 align-items: center;
 justify-content: space-between;
-box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
-transition: all 0.3s ease;
+box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+transition: all 0.3s ease-in-out;
 }
 
-.score-title {
+.score-label-text {
 font-size: 16px;
 font-weight: bold;
-color: #94a3b8;
-text-transform: uppercase;
-letter-spacing: 1px;
+color: #ffffff;
+letter-spacing: 0.5px;
 }
 
-.score-numerical-value {
-font-size: 28px;
+.score-numerical-badge {
+font-size: 24px;
 font-weight: 900;
-color: #38bdf8;
-text-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+color: #38bdf8; /* Dynamically colored by JavaScript */
+text-shadow: 0 0 10px rgba(56, 189, 248, 0.2);
+margin-left: 5px;
 }
 
-/* Dynamic status tag label inside the custom card container */
 #scoreStatus {
-font-size: 14px;
+font-size: 13px;
 font-weight: bold;
-padding: 5px 12px;
+padding: 6px 12px;
 border-radius: 8px;
 text-transform: uppercase;
-background: rgba(255, 255, 255, 0.08);
-border: 1px solid rgba(255, 255, 255, 0.1);
 letter-spacing: 0.5px;
+border: 1px solid transparent;
 display: inline-block;
+transition: all 0.3s ease;
 }
 
 .controls{
@@ -160,8 +162,8 @@ background: rgba(15, 23, 42, 0.4);
 border: 1px dashed #38bdf8;
 border-radius: 12px;
 padding: 12px;
-margin-top: 10px;
-margin-bottom: 75px; /* Added padding space to give room to the premium scoreboard panel */
+margin-top: 15px;
+margin-bottom: 50px; 
 font-size: 14px;
 line-height: 1.4;
 color: #cbd5e1;
@@ -215,22 +217,22 @@ text-decoration: underline;
 <div>Speaking Time: <span id="liveTime">0:00</span></div>
 </div>
 
+<div id="scoreContainer" class="score-container-box">
+  <div>
+    <span class="score-label-text">Interview Score:</span>
+    <span id="scoreValue" class="score-numerical-badge">--/10</span>
+  </div>
+  <div>
+    <span id="scoreStatus"></span>
+  </div>
+</div>
+
 <div class="audio-visualizer" id="visualizer">
 <div class="bar"></div>
 <div class="bar"></div>
 <div class="bar"></div>
 <div class="bar"></div>
 <div class="bar"></div>
-</div>
-
-<div id="scoreCardBox" class="score-display-box">
-  <div>
-    <div class="score-title">Interview Performance</div>
-    <div id="scoreValue" class="score-numerical-value">--/10</div>
-  </div>
-  <div>
-    <span id="scoreStatus"></span>
-  </div>
 </div>
 
 <div id="expectedAnswerBox" class="expected-answer-box"></div>
@@ -599,20 +601,21 @@ async function nextFlow(){
     
     document.getElementById("feedbackBtn").style.display = "none";
     
-    // Clear Scorecard layouts completely
-    let scoreCard = document.getElementById("scoreCardBox");
-    scoreCard.style.display = "none";
-    scoreCard.style.borderColor = "#38bdf8";
+    // Clear Score Panel layout views instantly
+    let scoreBox = document.getElementById("scoreContainer");
+    scoreBox.style.display = "none";
+    scoreBox.style.borderColor = "#38bdf8";
     
-    document.getElementById("scoreValue").innerText = "--/10";
-    document.getElementById("scoreValue").style.color = "#38bdf8";
-    document.getElementById("scoreValue").style.textShadow = "0 0 10px rgba(56, 189, 248, 0.3)";
+    let scoreNum = document.getElementById("scoreValue");
+    scoreNum.innerText = "--/10";
+    scoreNum.style.color = "#38bdf8";
+    scoreNum.style.textShadow = "0 0 10px rgba(56, 189, 248, 0.2)";
     
     let statusLabel = document.getElementById("scoreStatus");
     statusLabel.innerText = "";
     statusLabel.style.color = "#fff";
-    statusLabel.style.backgroundColor = "rgba(255, 255, 255, 0.08)";
-    statusLabel.style.borderColor = "rgba(255, 255, 255, 0.1)";
+    statusLabel.style.backgroundColor = "transparent";
+    statusLabel.style.borderColor = "transparent";
 
     document.getElementById("expectedAnswerBox").style.display = "none";
     document.getElementById("hintBtn").style.display = "inline-block";
@@ -670,11 +673,17 @@ async function generateFeedback() {
 
     let safeText = transcribedSpeech.trim().toLowerCase();
     
-    let scoreCard = document.getElementById("scoreCardBox");
-    scoreCard.style.display = "flex"; // Display scorecard block view
+    let scoreBox = document.getElementById("scoreContainer");
+    scoreBox.style.display = "flex"; // Reveal scoreboard card flexbox layout
     
-    document.getElementById("scoreValue").innerText = "Analyzing...";
-    document.getElementById("scoreStatus").innerText = "PROCESSING";
+    let scoreNum = document.getElementById("scoreValue");
+    scoreNum.innerText = "Analyzing...";
+    
+    let statusElement = document.getElementById("scoreStatus");
+    statusElement.innerText = "WAITING";
+    statusElement.style.color = "#94a3b8";
+    statusElement.style.backgroundColor = "rgba(255,255,255,0.05)";
+    statusElement.style.borderColor = "rgba(255,255,255,0.1)";
 
     let currentQuestionData = interviewData[currentIndex];
     let targetKeywords = currentQuestionData ? currentQuestionData.keywords : [];
@@ -705,17 +714,17 @@ async function generateFeedback() {
 
         let finalGrade = 2;
         let statusText = "";
-        let themeColor = "#38bdf8"; // Base branding variable matching colors
+        let themeColor = "#38bdf8"; 
 
         if (totalWords < 6 || matchedKeywordsCount === 0) {
             finalGrade = 2;
             statusText = "Off topic / too short";
-            themeColor = "#f43f5e"; // Striking Crimson Red
+            themeColor = "#f43f5e"; // Beautiful Crimson Red Look
         } 
         else if (matchedKeywordsCount === 1 && totalWords < 15) {
             finalGrade = 4;
             statusText = "Irrelevant and too short";
-            themeColor = "#fb923c"; // Vivid Orange
+            themeColor = "#fb923c"; // Lucrative Orange Look
         }
         else {
             if (matchedKeywordsCount === 1) finalGrade = 5;
@@ -726,15 +735,15 @@ async function generateFeedback() {
             if (fillerCount >= 4) {
                 finalGrade = Math.max(4, finalGrade - 2); 
                 statusText = "Need improve";
-                themeColor = "#facc15"; // Gold Amber Yellow
+                themeColor = "#facc15"; // Warm Gold Amber Look
             } 
             else if (finalGrade >= 6 && finalGrade <= 7) {
                 statusText = "Moderate";
-                themeColor = "#facc15"; // Gold Amber Yellow
+                themeColor = "#facc15"; // Warm Gold Amber Look
             } 
             else if (finalGrade >= 8) {
                 statusText = "Excellent";
-                themeColor = "#4ade80"; // Bright Emerald Green
+                themeColor = "#4ade80"; // Bright Neon Green Accent Look
             } 
             else {
                 statusText = "Moderate";
@@ -742,19 +751,17 @@ async function generateFeedback() {
             }
         }
 
-        // Apply theme color styling to box borders, text values, and badges
-        scoreCard.style.borderColor = themeColor;
+        // Apply theme color updates across the entire box container elements smoothly
+        scoreBox.style.borderColor = themeColor;
         
-        let scoreValElement = document.getElementById("scoreValue");
-        scoreValElement.innerText = `${finalGrade}/10`;
-        scoreValElement.style.color = themeColor;
-        scoreValElement.style.textShadow = `0 0 15px ${themeColor}4d`; // Smooth glowing text background radius
+        scoreNum.innerText = `${finalGrade}/10`;
+        scoreNum.style.color = themeColor;
+        scoreNum.style.textShadow = `0 0 12px ${themeColor}66`;
         
-        let statusElement = document.getElementById("scoreStatus");
         statusElement.innerText = statusText;
         statusElement.style.color = themeColor;
         statusElement.style.borderColor = themeColor;
-        statusElement.style.backgroundColor = `${themeColor}1a`; // Semi-transparent matching label tag overlay
+        statusElement.style.backgroundColor = `${themeColor}1a`; 
 
     }, 800);
 }
