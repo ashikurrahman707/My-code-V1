@@ -435,6 +435,531 @@ const interviewData = [
     question: "Your role model: name a person who inspires you and why.",
     keywords: ["role model", "inspires", "inspiration", "because", "achieved", "leader", "profession", "father", "scientist"],
     hint: "Name a visionary in your field or family, highlighting qualities like resilience, technical expertise, or ethics that drive you to study abroad."
+  },
+  {
+    question: "What is your full name?",
+    keywords: ["name", "called", "full name", "passport", "first name", "last name"],
+    hint: "State your full legal name clearly as it appears on your passport, including first name and surname."
+  },
+  {
+    question: "Where are you from?",
+    keywords: ["from", "bangladesh", "dhaka", "city", "country", "born", "hometown"],
+    hint: "Mention your home country (Bangladesh) and name the specific city or district where you currently live."
+  },
+  {
+    question: "What did you study before?",
+    keywords: ["study", "before", "hsc", "ssc", "bachelor", "degree", "completed", "major", "graduation"],
+    hint: "State your most recently completed degree (e.g., Bachelor, HSC), major subjects studied, and the name of your institute."
+  },
+  {
+    question: "What are you doing currently?",
+    keywords: ["currently", "now", "doing", "job", "working", "preparing", "completing", "internship"],
+    hint: "Explain your present daily activities, such as working a specific role, preparing visa files, or taking technical training courses."
+  },
+  {
+    question: "Are you working now?",
+    keywords: ["working", "now", "job", "employment", "company", "position", "role"],
+    hint: "Answer directly. If yes, state your job title and company name. If no, specify that you are currently a full-time student preparing for higher studies."
+  },
+  {
+    question: "What are your hobbies?",
+    keywords: ["hobbies", "hobby", "leisure", "free time", "reading", "sports", "gardening"],
+    hint: "Mention 1-2 productive activities you enjoy in your free time that highlight a balanced and active lifestyle."
+  },
+  {
+    question: "Why do you want to study abroad?",
+    keywords: ["abroad", "international", "exposure", "global", "standards", "quality", "career"],
+    hint: "Focus on obtaining global exposure, learning advanced practical concepts, and securing high-value qualifications respected worldwide."
+  },
+  {
+    question: "Why not study in Bangladesh?",
+    keywords: ["bangladesh", "theoretical", "session jam", "traditional", "curriculum", "practical", "facilities"],
+    hint: "Point out that higher education in Bangladesh is highly theoretical, can suffer from session jams, and lacks the advanced practical industry links found abroad."
+  },
+  {
+    question: "Why do you want to continue higher education now?",
+    keywords: ["higher education", "now", "advance", "career", "skills", "knowledge", "growth"],
+    hint: "Explain that to step up in your career tier or gain specialized knowledge, a standard bachelor's degree is no longer sufficient in the current job market."
+  },
+  {
+    question: "Why did you choose this university?",
+    keywords: ["university", "ranking", "facilities", "modules", "satisfaction", "reputation"],
+    hint: "Highlight specific reasons like excellent student satisfaction metrics, career employment services, or high modern facility ratings."
+  },
+  {
+    question: "How did you find this university?",
+    keywords: ["find", "found", "website", "research", "internet", "search", "portal"],
+    hint: "Explain that you discovered it through your own independent research on the internet, using official portals like UCAS or the university website."
+  },
+  {
+    question: "Did anyone recommend this university?",
+    keywords: ["recommend", "suggestion", "friend", "teacher", "alumni", "relative"],
+    hint: "If recommended, state who (e.g., a faculty member or senior alumnus). If not, emphasize it was purely chosen based on your personal research parameters."
+  },
+  {
+    question: "How many universities did you apply to?",
+    keywords: ["apply", "applied", "number", "universities", "total"],
+    hint: "State the true total number of UK universities you applied to (e.g., 3 universities) to demonstrate active research background."
+  },
+  {
+    question: "Which universities did you receive offers from?",
+    keywords: ["offers", "received", "conditional", "unconditional", "admission"],
+    hint: "List the names of all the UK universities that issued you offer letters alongside your chosen institution."
+  },
+  {
+    question: "Why did you reject other universities?",
+    keywords: ["reject", "rejected", "tuition", "modules", "structure", "expensive", "ranking"],
+    hint: "Compare them clearly: state that the other universities had higher tuition fees, or their module selections did not align as closely with your career objectives."
+  },
+  {
+    question: "What ranking does your university have?",
+    keywords: ["ranking", "rank", "guardian", "times", "qs", "complete university guide"],
+    hint: "State the current official ranking of the university from reputable indexes like the Guardian League Table or Times Higher Education."
+  },
+  {
+    question: "What do you know about the university?",
+    keywords: ["know", "about", "history", "population", "reputation", "awards", "excellence"],
+    hint: "Mention specific details like its award recognitions, approximate international student ratio, gold ratings, or key research strengths."
+  },
+  {
+    question: "Where is your university located?",
+    keywords: ["located", "location", "city", "england", "scotland", "london", "region"],
+    hint: "Give the precise geographical location of the campus, specifying the city and the UK region or country (e.g., England, Wales)."
+  },
+  {
+    question: "Tell me about the city.",
+    keywords: ["city", "town", "student-friendly", "living", "transport", "culture", "safe"],
+    hint: "Briefly describe the city as student-friendly, affordable, safe, and possessing reliable internal public transportation links."
+  },
+  {
+    question: "Why this campus?",
+    keywords: ["campus", "facilities", "environment", "amenities", "location", "hub"],
+    hint: "Detail unique campus benefits, such as a compact layout, 24/7 learning grids, proximity to transit links, or modern student union hubs."
+  },
+  {
+    question: "What facilities does the university provide?",
+    keywords: ["facilities", "library", "labs", "gym", "careers", "support", "computers"],
+    hint: "Talk about high-tier facilities like extensive modern library resources, high-tech computer labs, dedicated career advice centers, and gym environments."
+  },
+  {
+    question: "What research did you do before choosing this university?",
+    keywords: ["research", "website", "forums", "reviews", "rankings", "compared"],
+    hint: "Explain that you reviewed official university websites, cross-checked league table ranks, read student reviews, and checked cost distributions."
+  },
+  {
+    question: "What attracted you most?",
+    keywords: ["attracted", "most", "industry", "links", "practical", "modules", "accreditation"],
+    hint: "Mention the absolute standout feature for you, such as professional course accreditations, highly practical structure, or top industry connections."
+  },
+  {
+    question: "What modules interested you?",
+    keywords: ["modules", "interested", "subjects", "topics", "electives"],
+    hint: "Name 2-3 specific modules from your chosen course syllabus that match your future skill requirements perfectly."
+  },
+  {
+    question: "What course will you study?",
+    keywords: ["course", "study", "msc", "bsc", "degree", "title", "program"],
+    hint: "State the full, official academic title of your degree program exactly as written on your CAS/Offer Letter."
+  },
+  {
+    question: "Why did you choose this course?",
+    keywords: ["choose", "course", "career", "skills", "passion", "industry"],
+    hint: "Connect the course directly to your career goal, stating that the specific skills taught are highly demanded in your chosen industry."
+  },
+  {
+    question: "Why this subject?",
+    keywords: ["subject", "field", "domain", "interest", "sector"],
+    hint: "Explain your fundamental interest in this domain and highlight its commercial value or growth potential in the corporate sector."
+  },
+  {
+    question: "What will you learn from this course?",
+    keywords: ["learn", "skills", "knowledge", "tools", "techniques", "frameworks"],
+    hint: "Mention practical outcomes: analytical tools, strategic management frameworks, technical coding skills, or advanced research methods."
+  },
+  {
+    question: "What are the modules?",
+    keywords: ["modules", "core", "compulsory", "optional", "list"],
+    hint: "Recite at least 3 to 4 core modules of your course program to prove you have studied your official syllabus guidelines carefully."
+  },
+  {
+    question: "Which module do you like most?",
+    keywords: ["like", "most", "favourite", "module", "particular"],
+    hint: "Pick one specific module, summarize what it covers, and describe why it is highly relevant to your career path."
+  },
+  {
+    question: "How is this course related to your previous studies?",
+    keywords: ["related", "previous", "background", "progression", "foundation", "continuation"],
+    hint: "Demonstrate academic progression. Explain how your bachelor's or previous credentials laid the groundwork, and this course builds the advanced layer."
+  },
+  {
+    question: "Why are you changing your subject?",
+    keywords: ["changing", "subject", "switch", "shift", "transition", "relevance"],
+    hint: "If switching fields, explain the professional pivot clearly. Show how combining your old knowledge with this new field creates a highly competitive skill set."
+  },
+  {
+    question: "Why this course instead of another?",
+    keywords: ["instead", "another", "compared", "difference", "prefer"],
+    hint: "Compare it to a similar course (e.g., MSc Data Science vs MSc Computer Science) and point out that this specific curriculum offers targeted modules you need."
+  },
+  {
+    question: "How long is your course?",
+    keywords: ["long", "duration", "months", "year", "years"],
+    hint: "State the exact official duration of your program (e.g., 1 Year full-time Master's or 3 Years full-time Bachelor's)."
+  },
+  {
+    question: "When does your course start?",
+    keywords: ["start", "intake", "commencement", "date", "induction"],
+    hint: "State the exact official course start date or official induction week date from your current CAS details."
+  },
+  {
+    question: "Is your course placement-based?",
+    keywords: ["placement", "internship", "sandwich", "work", "industry"],
+    hint: "Confirm clearly based on your CAS. If it includes a placement year/internship, explain its duration. If not, state it is a standard purely taught track."
+  },
+  {
+    question: "Do you know your class schedule?",
+    keywords: ["schedule", "timetable", "hours", "days", "term"],
+    hint: "Explain that full final timetables are given post-enrollment, but standard expectations are 15-20 hours of contact classes and independent study weekly."
+  },
+  {
+    question: "What is the difference between your previous study and this course?",
+    keywords: ["difference", "previous", "advanced", "specialised", "deeper"],
+    hint: "State that previous studies covered basic structural principles, whereas this course introduces highly specialized research and managerial insights."
+  },
+  {
+    question: "Why International Year One instead of BSc?",
+    keywords: ["international year one", "iyo", "instead", "bsc", "entry", "pathway"],
+    hint: "Explain that the International Year One program provides structured academic support and intensive cultural adaptation alongside standard first-year degree modules."
+  },
+  {
+    question: "Why MSc instead of MBA?",
+    keywords: ["msc", "mba", "instead", "specialised", "technical", "experience"],
+    hint: "State that an MBA focuses broadly on general management for experienced professionals, whereas an MSc delivers deeper, technical specialization in your field."
+  },
+  {
+    question: "Explain your course structure.",
+    keywords: ["structure", "credits", "semesters", "terms", "dissertation"],
+    hint: "Outline how your course is divided (e.g., 180 total credits split across 120 credits of taught modules and a 60-credit final dissertation or project)."
+  },
+  {
+    question: "Is your course practical or theoretical?",
+    keywords: ["practical", "theoretical", "case studies", "real-world", "exams"],
+    hint: "Emphasize that the UK curriculum is highly practical, focusing heavily on interactive case studies, lab work, and real-world project portfolios rather than pure memorization."
+  },
+  {
+    question: "What career opportunities will you get after this course?",
+    keywords: ["career", "opportunities", "jobs", "roles", "positions"],
+    hint: "Name specific high-level job designations (e.g., Business Analyst, Project Manager) you will qualify for in the corporate sector upon return."
+  },
+  {
+    question: "What skills will you develop?",
+    keywords: ["skills", "develop", "analytical", "problem-solving", "technical", "leadership"],
+    hint: "Highlight key professional soft and hard skills, such as advanced data analysis, critical problem-solving, and team leadership capabilities."
+  },
+  {
+    question: "Why do you want to study in the UK?",
+    keywords: ["uk", "united kingdom", "reputation", "duration", "standards"],
+    hint: "Focus on the short duration of degrees (1-year Master's), globally top-ranked universities, high educational quality control, and an immersive English environment."
+  },
+  {
+    question: "Why not USA/Canada/Australia?",
+    keywords: ["usa", "canada", "australia", "duration", "expensive", "cost"],
+    hint: "Explain that Master's programs in the USA or Canada usually take 2 years, which doubles your total tuition expenses and general living costs compared to the UK's 1-year pathway."
+  },
+  {
+    question: "What benefits does the UK provide?",
+    keywords: ["benefits", "advantages", "culture", "exposure", "student support"],
+    hint: "Mention multicultural exposure, student discount systems, robust safety networks, and an educational style that builds career-ready independence."
+  },
+  {
+    question: "Why is the UK better for your course?",
+    keywords: ["better", "course", "pioneer", "hub", "industry", "advancements"],
+    hint: "Explain that the UK functions as a global pioneering hub for your specific industry sector, with research frameworks aligned closely with international markets."
+  },
+  {
+    question: "What do you know about UK education?",
+    keywords: ["uk education", "quality assurance", "qaa", "standards", "independent"],
+    hint: "Mention that it is strictly monitored by bodies like the QAA (Quality Assurance Agency) to guarantee elite standards of teaching and research across all public universities."
+  },
+  {
+    question: "Why are UK degrees respected?",
+    keywords: ["respected", "prestige", "global recognition", "employers", "history"],
+    hint: "State that UK degrees carry a historic prestige for producing critical-thinking graduates, making them highly recognized by global top employers."
+  },
+  {
+    question: "Do you know the Graduate Route?",
+    keywords: ["graduate route", "psw", "post study work", "visa", "2 years"],
+    hint: "Demonstrate accurate knowledge: the Graduate Route allows international students to work or seek work legally in the UK for up to 2 years post-graduation."
+  },
+  {
+    question: "What are your plans after graduation?",
+    keywords: ["plans", "after", "return", "bangladesh", "join", "apply"],
+    hint: "Affirm that your definitive plan is to return immediately to your home country to apply your international skills in mid-to-senior corporate roles."
+  },
+  {
+    question: "Will you return to Bangladesh?",
+    keywords: ["return", "bangladesh", "home", "back", "economy", "family"],
+    hint: "Answer with a strong YES. Detail your strong family, social, and long-term economic ties in Bangladesh that necessitate your return."
+  },
+  {
+    question: "Why not study online?",
+    keywords: ["online", "campus", "interactive", "networking", "networking", "practical"],
+    hint: "Explain that online learning misses out on real-world networking, campus laboratory use, face-to-face peer discussions, and international cultural immersion."
+  },
+  {
+    question: "What do you know about UK culture?",
+    keywords: ["culture", "diverse", "multicultural", "history", "tolerant", "inclusive"],
+    hint: "Describe it as a highly diverse, safe, historic, and multi-ethnic society that welcomingly integrates student communities from around the world."
+  },
+  {
+    question: "Have you been to the UK before?",
+    keywords: ["been", "visited", "travelled", "history", "visa"],
+    hint: "Answer directly with your true travel history. If no, state it clearly as your very first educational journey to the country."
+  },
+  {
+    question: "Why is the UK suitable for international students?",
+    keywords: ["suitable", "international students", "support", "societies", "welfare"],
+    hint: "Highlight excellent student welfare setups, active international support divisions, and dedicated campus orientation tracks."
+  },
+  {
+    question: "Why UK over Canada?",
+    keywords: ["canada", "uk over canada", "weather", "shorter", "duration", "fast"],
+    hint: "Explain that the UK provides a faster 1-year pathway to complete a Master's degree, whereas Canada requires 2 full years, bringing higher overall tuition and living metrics."
+  },
+  {
+    question: "Who will pay your tuition fees?",
+    keywords: ["pay", "tuition fees", "sponsor", "father", "parents"],
+    hint: "State exactly who is funding you, such as your father, mother, or your parents jointly supporting your corporate study track."
+  },
+  {
+    question: "Who is your sponsor?",
+    keywords: ["sponsor", "relationship", "relation", "identity"],
+    hint: "Clearly name your financial sponsor and state their precise familial relationship to you (e.g., my father, Mr. X)."
+  },
+  {
+    question: "What does your sponsor do?",
+    keywords: ["does", "occupation", "business", "job", "profession", "service"],
+    hint: "State your sponsor's exact line of work, such as their specific company name and corporate designation, or details of their business domain."
+  },
+  {
+    question: "What is your sponsor’s monthly income?",
+    keywords: ["income", "monthly", "salary", "earnings", "taka", "amount"],
+    hint: "Quote the precise monthly income figures in Bangladeshi Taka (BDT) that exactly match the tax returns and official income certificates provided."
+  },
+  {
+    question: "How much is your tuition fee?",
+    keywords: ["tuition fee", "cost", "pounds", "amount", "total"],
+    hint: "State the total annual cost of your tuition fee in British Pounds (£) precisely as mentioned on your CAS statement."
+  },
+  {
+    question: "How much deposit did you pay?",
+    keywords: ["deposit", "paid", "amount", "receipt", "pounds"],
+    hint: "State the exact financial deposit amount in British Pounds (£) that you have transferred to the university to secure your CAS."
+  },
+  {
+    question: "How much money is in your bank account?",
+    keywords: ["bank account", "money", "funds", "balance", "taka", "pounds"],
+    hint: "State the exact balance total shown on your official bank certificate, ensuring it comfortably covers your remaining tuition fees and UKVI living costs."
+  },
+  {
+    question: "How will you manage living costs?",
+    keywords: ["manage", "living costs", "maintenance", "funds", "bank statement"],
+    hint: "Explain that your sponsor has set aside liquid cash reserves in a verified bank account that meet or exceed official UKVI maintenance requirements."
+  },
+  {
+    question: "What is your total budget?",
+    keywords: ["total budget", "cost", "overall", "calculation"],
+    hint: "Give a clear total sum adding your annual tuition fees, UKVI maintenance amounts, flight costs, and health insurance surcharges together."
+  },
+  {
+    question: "Did you take any loan?",
+    keywords: ["loan", "bank loan", "borrowed", "finance"],
+    hint: "Answer accurately. If yes, name the bank and state the approved loan amount. If no, state it is completely sourced from personal family cash savings."
+  },
+  {
+    question: "How will you pay remaining tuition fees?",
+    keywords: ["remaining", "pay", "installments", "transfer", "account"],
+    hint: "Explain that the remaining fee balance will be transferred directly via bank university portals using international student flywire or swift tracks before or upon registration."
+  },
+  {
+    question: "Can your sponsor support you fully?",
+    keywords: ["fully", "support", "capable", "afford", "financial"],
+    hint: "Confirm with a strong YES. Highlight that your sponsor's annual income and total asset structures comfortably support your studies without creating financial hardship."
+  },
+  {
+    question: "How many family members depend on your sponsor?",
+    keywords: ["depend", "dependents", "family members", "number"],
+    hint: "State the exact number of dependent family members relying on your sponsor's income, proving that ample disposable income remains for your studies."
+  },
+  {
+    question: "What proof do you have for finances?",
+    keywords: ["proof", "finances", "documents", "bank statement", "tax", "solvency"],
+    hint: "List your official documents: verified bank statements, certificates of solvency, asset deeds, trade licenses, or clear income tax files."
+  },
+  {
+    question: "What is your bank name?",
+    keywords: ["bank name", "bank", "branch", "account"],
+    hint: "State the official legal name of the bank holding your interview funds (e.g., Prime Bank, Eastern Bank, BRAC Bank)."
+  },
+  {
+    question: "How long has the money been in the account?",
+    keywords: ["long", "days", "28 days", "period", "matured"],
+    hint: "Confirm that your funds have been held continuously for a minimum sequence of 28 consecutive days as strictly mandated by UKVI guidelines."
+  },
+  {
+    question: "Why did a large amount enter recently?",
+    keywords: ["large amount", "recently", "deposit", "source", "sale", "savings"],
+    hint: "If applicable, explain the legal source of any major transactions clearly (e.g., maturation of family savings instruments, business profit payouts, or property sales)."
+  },
+  {
+    question: "Who prepared your financial documents?",
+    keywords: ["prepared", "financial documents", "bank", "sponsor", "accountant"],
+    hint: "State that the official documents were issued directly by your bank branch managers and authenticated by authorized tax/accounting professionals."
+  },
+  {
+    question: "Where will you stay in the UK?",
+    keywords: ["stay", "accommodation", "address", "halls", "residence"],
+    hint: "Provide the planned city area, specific street name, or university residential hall name where you will be living."
+  },
+  {
+    question: "Did you book accommodation?",
+    keywords: ["book", "booked", "arranged", "secured", "reservation"],
+    hint: "State your current progress accurately—whether you have finalized a university room slot, private student lease, or are choosing from shortlisted options."
+  },
+  {
+    question: "How much is the rent?",
+    keywords: ["rent", "weekly", "monthly", "cost", "pounds"],
+    hint: "State the accurate layout cost in British Pounds (e.g., £150 per week or £600 per month inclusive of utility bills)."
+  },
+  {
+    question: "Is it university accommodation or private?",
+    keywords: ["university accommodation", "private", "halls", "house"],
+    hint: "Clarify whether it is an official on-campus university residential hall or an off-campus private student housing complex."
+  },
+  {
+    question: "How far is it from university?",
+    keywords: ["far", "distance", "miles", "walking", "proximity"],
+    hint: "Specify the exact proximity metrics (e.g., a 10-minute walk or a quick 2-mile bus commute from the central teaching building)."
+  },
+  {
+    question: "Who will you stay with?",
+    keywords: ["with", "roommates", "alone", "flatmates", "students"],
+    hint: "Explain that you will be sharing the apartment or floor flat safely with fellow international university students."
+  },
+  {
+    question: "How will you travel to university?",
+    keywords: ["travel", "commute", "walk", "bus", "train", "bicycle"],
+    hint: "State your daily commute method, such as walking, cycling, or utilizing the city's integrated local public student bus transit networks."
+  },
+  {
+    question: "What facilities does your accommodation have?",
+    keywords: ["facilities", "wifi", "laundry", "kitchen", "heating", "security"],
+    hint: "Mention student utility essentials like high-speed Wi-Fi access, shared kitchen areas, laundry amenities, and 24/7 security features."
+  },
+  {
+    question: "What are your future career plans?",
+    keywords: ["future career", "plans", "long-term", "employment", "return"],
+    hint: "Outline a clear progression map: returning home immediately to enter a target industry corporate role, aiming for management within 3 years."
+  },
+  {
+    question: "What job do you want after graduation?",
+    keywords: ["job", "role", "designation", "position", "target"],
+    hint: "State a precise corporate job role title (e.g., Lead Project Analyst, Senior Systems Developer, Financial Specialist)."
+  },
+  {
+    question: "How will this degree help your career?",
+    keywords: ["degree help", "career", "salary", "promotion", "advantage"],
+    hint: "Explain that it provides advanced international technical skills that command superior salaries and accelerated promotions in competitive local hiring markets."
+  },
+  {
+    question: "Do you plan to stay in the UK permanently?",
+    keywords: ["permanently", "stay", "settle", "uk permanently"],
+    hint: "Answer with a clear and firm NO. Reiterate that your primary intention is purely educational, and you intend to return home to your family and career base."
+  },
+  {
+    question: "Will you return to Bangladesh?",
+    keywords: ["return", "bangladesh", "home", "back"],
+    hint: "Answer with a firm YES. Emphasize your definitive career path, family commitments, and corporate opportunities waiting inside Bangladesh's growing economy."
+  },
+  {
+    question: "What salary do you expect after graduation?",
+    keywords: ["salary", "expect", "starting", "income", "taka"],
+    hint: "Quote a realistic monthly starting salary range in BDT (e.g., 60,000 to 80,000 BDT) expected for foreign-degree holders in your field."
+  },
+  {
+    question: "Where do you see yourself in 5 years?",
+    keywords: ["5 years", "future", "manager", "director", "senior position"],
+    hint: "State that you see yourself leading an executive department or serving as a Senior Consultant within a top-tier firm back in Bangladesh."
+  },
+  {
+    question: "Do you want to start a business?",
+    keywords: ["business", "entrepreneur", "startup", "firm"],
+    hint: "If applicable, explain that your long-term goal is to establish your own local tech/business consultancy, using the global skills you acquire."
+  },
+  {
+    question: "Why is this course important for your future?",
+    keywords: ["important", "future", "critical", "necessity"],
+    hint: "Explain that the course bridges the gap between your foundational knowledge and the specialized industry tools required for top positions."
+  },
+  {
+    question: "Why did you not take IELTS?",
+    keywords: ["ielts", "moi", "english proficiency", "medium of instruction"],
+    hint: "Explain that your previous university program was conducted entirely in English, qualifying you for an official Medium of Instruction (MOI) waiver accepted by the university."
+  },
+  {
+    question: "How was your MOI interview?",
+    keywords: ["moi interview", "university interview", "passed", "assessment"],
+    hint: "State that you successfully passed the university's internal credibility and English proficiency interview panel prior to receiving your unconditional offer."
+  },
+  {
+    question: "Can you communicate fully in English?",
+    keywords: ["communicate", "fully", "english", "fluently", "speaking"],
+    hint: "Answer confidently with a YES. Highlight that your entire high school or undergraduate education path was taught, assessed, and examined in English."
+  },
+  {
+    question: "Have you studied in English before?",
+    keywords: ["studied", "english before", "background", "medium"],
+    hint: "Confirm that your textbooks, assignments, examinations, and lecture interactions at your previous institute were fully in the English language."
+  },
+  {
+    question: "Why do you think your English is enough?",
+    keywords: ["enough", "sufficient", "english is enough", "understanding"],
+    hint: "Explain that you comfortably follow complex technical papers, write academic reports, and participate in fluid academic discussions in English."
+  },
+  {
+    question: "Why do you have a study gap?",
+    keywords: ["study gap", "gap", "years", "reason"],
+    hint: "Provide an authentic reason—such as accumulating real-world work experience, taking professional certification courses, or overcoming specific personal situations."
+  },
+  {
+    question: "What did you do during your gap?",
+    keywords: ["during", "gap", "experience", "working", "courses"],
+    hint: "Detail your productive timeline: name the corporate roles you worked, professional skills developed, or technical training certifications achieved."
+  },
+  {
+    question: "Why did you not study earlier?",
+    keywords: ["earlier", "not study", "delayed", "timing"],
+    hint: "Explain that you wanted to gain practical industry insights first to better appreciate and extract value from advanced postgraduate curriculum structures."
+  },
+  {
+    question: "Explain your employment history.",
+    keywords: ["employment", "history", "jobs", "experience", "roles"],
+    hint: "Chronologically summarize your job history, stating dates, company names, and core responsibilities relevant to your field."
+  },
+  {
+    question: "Why are your grades low?",
+    keywords: ["grades", "low", "gpa", "marks", "academic"],
+    hint: "Do not make excuses. Acknowledge your performance, point out specific subjects where you excelled, and emphasize your increased focus and readiness for higher studies."
+  },
+  {
+    question: "Why did you change universities?",
+    keywords: ["change", "universities", "switch", "transfer"],
+    hint: "Explain that the new institution provides a superior practical curriculum, specialized modules, or better facilities aligned with your career goals."
+  },
+  {
+    question: "Why did you fail/drop previous studies?",
+    keywords: ["fail", "drop", "dropped", "incomplete"],
+    hint: "Be honest. State the genuine challenge faced, explain how you resolved it, and focus on the steps you have taken to ensure academic success now."
   }
 ];
 
@@ -510,9 +1035,29 @@ function formatTime(totalSeconds) {
 function speak(text){
     window.speechSynthesis.cancel(); 
     let s = new SpeechSynthesisUtterance(text);
-    s.rate = 1.0; 
+    
+    // Scan device OS for high-quality natural neural/google voices
+    let voices = window.speechSynthesis.getVoices();
+    
+    // Preference order for natural sounding English engines
+    let preferredVoice = voices.find(v => v.name.includes("Google US English") || v.name.includes("Natural") || v.name.includes("Aria") || v.name.includes("Samantha") || v.name.includes("Zira"));
+    
+    if(!preferredVoice) {
+        preferredVoice = voices.find(v => v.lang.startsWith("en-") || v.lang.startsWith("en_"));
+    }
+    
+    if(preferredVoice) {
+        s.voice = preferredVoice;
+    }
+
+    s.rate = 0.95; // Slower human cadence
+    s.pitch = 1.0; 
     window.speechSynthesis.speak(s);
     return new Promise(r => { s.onend = r; });
+}
+
+if (typeof speechSynthesis !== 'undefined' && speechSynthesis.onvoiceschanged !== undefined) {
+    speechSynthesis.onvoiceschanged = () => { window.speechSynthesis.getVoices(); };
 }
 
 function timer(id, sec, cb){
@@ -601,7 +1146,6 @@ async function nextFlow(){
     
     document.getElementById("feedbackBtn").style.display = "none";
     
-    // Clear Score Panel layout views instantly
     let scoreBox = document.getElementById("scoreContainer");
     scoreBox.style.display = "none";
     scoreBox.style.borderColor = "#38bdf8";
@@ -674,7 +1218,7 @@ async function generateFeedback() {
     let safeText = transcribedSpeech.trim().toLowerCase();
     
     let scoreBox = document.getElementById("scoreContainer");
-    scoreBox.style.display = "flex"; // Reveal scoreboard card flexbox layout
+    scoreBox.style.display = "flex"; 
     
     let scoreNum = document.getElementById("scoreValue");
     scoreNum.innerText = "Analyzing...";
@@ -719,12 +1263,12 @@ async function generateFeedback() {
         if (totalWords < 6 || matchedKeywordsCount === 0) {
             finalGrade = 2;
             statusText = "Off topic / too short";
-            themeColor = "#f43f5e"; // Beautiful Crimson Red Look
+            themeColor = "#f43f5e"; 
         } 
         else if (matchedKeywordsCount === 1 && totalWords < 15) {
             finalGrade = 4;
             statusText = "Irrelevant and too short";
-            themeColor = "#fb923c"; // Lucrative Orange Look
+            themeColor = "#fb923c"; 
         }
         else {
             if (matchedKeywordsCount === 1) finalGrade = 5;
@@ -735,15 +1279,15 @@ async function generateFeedback() {
             if (fillerCount >= 4) {
                 finalGrade = Math.max(4, finalGrade - 2); 
                 statusText = "Need improve";
-                themeColor = "#facc15"; // Warm Gold Amber Look
+                themeColor = "#facc15"; 
             } 
             else if (finalGrade >= 6 && finalGrade <= 7) {
                 statusText = "Moderate";
-                themeColor = "#facc15"; // Warm Gold Amber Look
+                themeColor = "#facc15"; 
             } 
             else if (finalGrade >= 8) {
                 statusText = "Excellent";
-                themeColor = "#4ade80"; // Bright Neon Green Accent Look
+                themeColor = "#4ade80"; 
             } 
             else {
                 statusText = "Moderate";
@@ -751,9 +1295,7 @@ async function generateFeedback() {
             }
         }
 
-        // Apply theme color updates across the entire box container elements smoothly
         scoreBox.style.borderColor = themeColor;
-        
         scoreNum.innerText = `${finalGrade}/10`;
         scoreNum.style.color = themeColor;
         scoreNum.style.textShadow = `0 0 12px ${themeColor}66`;
