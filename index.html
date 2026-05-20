@@ -109,7 +109,7 @@ align-items:flex-end;
 height:60px;
 gap:4px;
 margin-top:15px;
-margin-bottom: 15px; /* Reduced to sit comfortably above expected answer panel */
+margin-bottom: 15px;
 }
 
 .bar{
@@ -117,17 +117,17 @@ width:6px;
 height:15px;
 background:#22d3ee;
 border-radius:5px;
-transition: height 0.1s ease;
+transition: height 0.08s ease; /* Fast transition makes it follow real-time loudness seamlessly */
 }
 
-/* NEW: EXPECTED ANSWER CONTAINER STYLE */
+/* EXPECTED ANSWER CONTAINER STYLE */
 .expected-answer-box {
 background: rgba(15, 23, 42, 0.4);
 border: 1px dashed #38bdf8;
 border-radius: 12px;
 padding: 12px;
 margin-top: 10px;
-margin-bottom: 45px; /* Ensures clearance from bottom controls */
+margin-bottom: 45px; 
 font-size: 14px;
 line-height: 1.4;
 color: #cbd5e1;
@@ -215,7 +215,6 @@ text-decoration: underline;
 
 <script>
 
-// Database structure containing tailored questions, target keywords, and expected structures
 const interviewData = [
   {
     question: "Tell me about yourself",
@@ -402,9 +401,9 @@ let aiT, recT, liveT, visualLoop;
 let audioContext, analyser, dataArray;
 let totalRecordedSeconds = 0; 
 
-// Speech Recognition Properties
 let recognition;
 let transcribedSpeech = "";
+let isRecordingActive = false; // Flag tracking visual updates
 
 window.addEventListener('DOMContentLoaded', () => {
     if (window.location.protocol === 'file:') {
@@ -493,12 +492,16 @@ function startRecord(){
     recorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
     chunks = [];
     transcribedSpeech = "";
+    isRecordingActive = true; // Turn visual audio updates ON
     
     if (recognition) { try { recognition.start(); } catch(e){} }
     
     recorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
     
     recorder.onstop = () => {
+        isRecordingActive = false; // Turn visual audio updates OFF
+        resetVisualizerBars();     // Make waves completely flat instantly
+        
         let blob = new Blob(chunks, {type: "video/webm"});
         let recordedVideo = document.getElementById("recorded");
         recordedVideo.src = URL.createObjectURL(blob);
@@ -528,14 +531,26 @@ function setupVisualizer(mediaStream) {
 
     function draw() {
         visualLoop = requestAnimationFrame(draw);
-        analyser.getByteFrequencyData(dataArray);
-        bars.forEach((bar, index) => {
-            let value = dataArray[index] || 0;
-            let height = Math.max(15, (value / 255) * 60); 
-            bar.style.height = height + 'px';
-        });
+        
+        if (isRecordingActive) {
+            analyser.getByteFrequencyData(dataArray);
+            bars.forEach((bar, index) => {
+                let value = dataArray[index] || 0;
+                // Waves animate up based directly on your mic input loudness
+                let height = Math.max(15, (value / 255) * 60); 
+                bar.style.height = height + 'px';
+            });
+        }
     }
     draw();
+}
+
+// Reset waves back to small resting size when recording finishes
+function resetVisualizerBars() {
+    const bars = document.querySelectorAll('.bar');
+    bars.forEach(bar => {
+        bar.style.height = '15px';
+    });
 }
 
 async function nextFlow(){
@@ -547,7 +562,6 @@ async function nextFlow(){
     document.getElementById("scoreRow").style.display = "none";
     document.getElementById("scoreValue").innerText = "--/10";
     
-    // Reset expected answer layout
     document.getElementById("expectedAnswerBox").style.display = "none";
     document.getElementById("hintBtn").style.display = "inline-block";
 
@@ -559,7 +573,6 @@ async function nextFlow(){
     document.getElementById("liveTime").innerText = "0:00"; 
     document.getElementById("recTimer").innerText = "0";
 
-    // Pull comprehensive data map indices
     currentIndex = Math.floor(Math.random() * interviewData.length);
     let targetData = interviewData[currentIndex];
     
@@ -600,9 +613,10 @@ function stopAll(){
     if(recorder && recorder.state != "inactive") recorder.stop();
     if (recognition) { try { recognition.stop(); } catch(e){} }
     clearInterval(aiT); clearInterval(recT); clearInterval(liveT);
+    isRecordingActive = false;
+    resetVisualizerBars();
 }
 
-// HIGH ACCURACY KEYWORD GRADING ENGINE
 async function generateFeedback() {
     if (recognition) { try { recognition.stop(); } catch(e){} }
 
@@ -613,7 +627,6 @@ async function generateFeedback() {
     let currentQuestionData = interviewData[currentIndex];
     let targetKeywords = currentQuestionData ? currentQuestionData.keywords : [];
 
-    // Method 2 Execution Hook (Chrome Local AI)
     if (window.ai && window.ai.createTextSession) {
         try {
             const session = await window.ai.createTextSession();
@@ -639,27 +652,24 @@ async function generateFeedback() {
         let totalWords = safeText.split(" ").length;
         let matchedKeywordsCount = 0;
 
-        // Scan speech against the target keywords of this specific question
         targetKeywords.forEach(keyword => {
             if (safeText.includes(keyword)) {
                 matchedKeywordsCount++;
             }
         });
 
-        let finalGrade = 2; // Default baseline fail score if completely off-topic
+        let finalGrade = 2; 
 
         if (totalWords < 6 || matchedKeywordsCount === 0) {
             document.getElementById("scoreValue").innerText = "2/10 (Off-Topic/Too Short)";
             return;
         }
 
-        // Precise scoring calculations based on relevant question vocabulary mapping
         if (matchedKeywordsCount === 1) finalGrade = 4;
         else if (matchedKeywordsCount === 2) finalGrade = 6;
         else if (matchedKeywordsCount === 3) finalGrade = 8;
         else if (matchedKeywordsCount >= 4) finalGrade = 10;
 
-        // Deduced penalty adjustments for extreme brevity
         if (totalWords < 20 && finalGrade > 6) {
             finalGrade = 6;
         }
