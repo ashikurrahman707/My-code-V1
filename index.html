@@ -65,22 +65,46 @@ font-size:16px;
 color:#93c5fd;
 }
 
-.score-display-text {
-margin-top: 15px;
-font-size: 18px;
-font-weight: bold;
-color: #ffffff; 
-display: none; 
+/* LUXURIOUS NEW SCORE BOX PANEL DISPLAY */
+.score-display-box {
+margin-top: 20px;
+background: rgba(15, 23, 42, 0.6);
+border: 2px solid #38bdf8; /* Default premium blue borders */
+padding: 15px;
+border-radius: 14px;
+display: none; /* Revealed by JavaScript click events */
+align-items: center;
+justify-content: space-between;
+box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+transition: all 0.3s ease;
 }
 
-/* Dynamic status tag for color feedback */
-#scoreStatus {
+.score-title {
 font-size: 16px;
 font-weight: bold;
-margin-left: 8px;
-padding: 2px 8px;
-border-radius: 6px;
-background: rgba(255, 255, 255, 0.1);
+color: #94a3b8;
+text-transform: uppercase;
+letter-spacing: 1px;
+}
+
+.score-numerical-value {
+font-size: 28px;
+font-weight: 900;
+color: #38bdf8;
+text-shadow: 0 0 10px rgba(56, 189, 248, 0.3);
+}
+
+/* Dynamic status tag label inside the custom card container */
+#scoreStatus {
+font-size: 14px;
+font-weight: bold;
+padding: 5px 12px;
+border-radius: 8px;
+text-transform: uppercase;
+background: rgba(255, 255, 255, 0.08);
+border: 1px solid rgba(255, 255, 255, 0.1);
+letter-spacing: 0.5px;
+display: inline-block;
 }
 
 .controls{
@@ -137,7 +161,7 @@ border: 1px dashed #38bdf8;
 border-radius: 12px;
 padding: 12px;
 margin-top: 10px;
-margin-bottom: 45px; 
+margin-bottom: 75px; /* Added padding space to give room to the premium scoreboard panel */
 font-size: 14px;
 line-height: 1.4;
 color: #cbd5e1;
@@ -189,7 +213,6 @@ text-decoration: underline;
 <div>Speak In: <span id="aiTimer">0</span></div>
 <div>Preparation Time: <span id="recTimer">0</span></div>
 <div>Speaking Time: <span id="liveTime">0:00</span></div>
-<div id="scoreRow" class="score-display-text">Interview Score: <span id="scoreValue">--/10</span><span id="scoreStatus"></span></div>
 </div>
 
 <div class="audio-visualizer" id="visualizer">
@@ -198,6 +221,16 @@ text-decoration: underline;
 <div class="bar"></div>
 <div class="bar"></div>
 <div class="bar"></div>
+</div>
+
+<div id="scoreCardBox" class="score-display-box">
+  <div>
+    <div class="score-title">Interview Performance</div>
+    <div id="scoreValue" class="score-numerical-value">--/10</div>
+  </div>
+  <div>
+    <span id="scoreStatus"></span>
+  </div>
 </div>
 
 <div id="expectedAnswerBox" class="expected-answer-box"></div>
@@ -565,11 +598,22 @@ async function nextFlow(){
     recordedVideo.src = ""; 
     
     document.getElementById("feedbackBtn").style.display = "none";
-    document.getElementById("scoreRow").style.display = "none";
-    document.getElementById("scoreValue").innerText = "--/10";
-    document.getElementById("scoreStatus").innerText = "";
-    document.getElementById("scoreStatus").style.color = "#fff";
     
+    // Clear Scorecard layouts completely
+    let scoreCard = document.getElementById("scoreCardBox");
+    scoreCard.style.display = "none";
+    scoreCard.style.borderColor = "#38bdf8";
+    
+    document.getElementById("scoreValue").innerText = "--/10";
+    document.getElementById("scoreValue").style.color = "#38bdf8";
+    document.getElementById("scoreValue").style.textShadow = "0 0 10px rgba(56, 189, 248, 0.3)";
+    
+    let statusLabel = document.getElementById("scoreStatus");
+    statusLabel.innerText = "";
+    statusLabel.style.color = "#fff";
+    statusLabel.style.backgroundColor = "rgba(255, 255, 255, 0.08)";
+    statusLabel.style.borderColor = "rgba(255, 255, 255, 0.1)";
+
     document.getElementById("expectedAnswerBox").style.display = "none";
     document.getElementById("hintBtn").style.display = "inline-block";
 
@@ -621,32 +665,30 @@ function stopAll(){
     resetVisualizerBars();
 }
 
-// UPGRADED EVALUATION ENGINE WITH STATUS LABELS & FILLER TRACKING
 async function generateFeedback() {
     if (recognition) { try { recognition.stop(); } catch(e){} }
 
     let safeText = transcribedSpeech.trim().toLowerCase();
-    document.getElementById("scoreRow").style.display = "block";
-    document.getElementById("scoreValue").innerText = "Analyzing Answer...";
-    document.getElementById("scoreStatus").innerText = "";
+    
+    let scoreCard = document.getElementById("scoreCardBox");
+    scoreCard.style.display = "flex"; // Display scorecard block view
+    
+    document.getElementById("scoreValue").innerText = "Analyzing...";
+    document.getElementById("scoreStatus").innerText = "PROCESSING";
 
     let currentQuestionData = interviewData[currentIndex];
     let targetKeywords = currentQuestionData ? currentQuestionData.keywords : [];
 
-    // Fallback Local Math processing for exact label mappings
     setTimeout(() => {
         let totalWords = safeText.split(/\s+/).filter(w => w.length > 0).length;
         let matchedKeywordsCount = 0;
 
-        // Keyword Verification Logic
         targetKeywords.forEach(keyword => {
             if (safeText.includes(keyword)) {
                 matchedKeywordsCount++;
             }
         });
 
-        // Filler words tracking algorithm
-        // Counts matches for filler markers like "umm", "like", and loops of "and"
         let fillerCount = 0;
         let wordsArray = safeText.split(/\s+/);
         wordsArray.forEach(word => {
@@ -656,7 +698,6 @@ async function generateFeedback() {
             }
         });
 
-        // Explicitly check for consecutive/excessive "and" loops
         let matchesAnd = safeText.match(/\band\b/g);
         if (matchesAnd && matchesAnd.length > 3) {
             fillerCount += Math.floor(matchesAnd.length / 2);
@@ -664,54 +705,56 @@ async function generateFeedback() {
 
         let finalGrade = 2;
         let statusText = "";
-        let statusColor = "#fff";
+        let themeColor = "#38bdf8"; // Base branding variable matching colors
 
-        // Condition 1: Off Topic / Too Short
         if (totalWords < 6 || matchedKeywordsCount === 0) {
             finalGrade = 2;
             statusText = "Off topic / too short";
-            statusColor = "#f43f5e"; // Red
+            themeColor = "#f43f5e"; // Striking Crimson Red
         } 
-        // Condition 2: Irrelevant & Too Short (Spoke a little bit, but totally missed content pointers)
         else if (matchedKeywordsCount === 1 && totalWords < 15) {
             finalGrade = 4;
             statusText = "Irrelevant and too short";
-            statusColor = "#fb923c"; // Orange
+            themeColor = "#fb923c"; // Vivid Orange
         }
         else {
-            // Base score configuration derived from vocabulary map matches
             if (matchedKeywordsCount === 1) finalGrade = 5;
             else if (matchedKeywordsCount === 2) finalGrade = 6;
             else if (matchedKeywordsCount === 3) finalGrade = 8;
             else if (matchedKeywordsCount >= 4) finalGrade = 10;
 
-            // Condition 3: Relevant but not fluent -> Needs Improve (Heavy filler counts found)
             if (fillerCount >= 4) {
-                finalGrade = Math.max(4, finalGrade - 2); // Pull score back down for fluency issues
+                finalGrade = Math.max(4, finalGrade - 2); 
                 statusText = "Need improve";
-                statusColor = "#facc15"; // Yellow
+                themeColor = "#facc15"; // Gold Amber Yellow
             } 
-            // Condition 4: Moderate performance values (Score 6-7)
             else if (finalGrade >= 6 && finalGrade <= 7) {
                 statusText = "Moderate";
-                statusColor = "#facc15"; // Yellow
+                themeColor = "#facc15"; // Gold Amber Yellow
             } 
-            // Condition 5: Excellent (Score 8-10)
             else if (finalGrade >= 8) {
                 statusText = "Excellent";
-                statusColor = "#4ade80"; // Bright Green
+                themeColor = "#4ade80"; // Bright Emerald Green
             } 
             else {
                 statusText = "Moderate";
-                statusColor = "#facc15";
+                themeColor = "#facc15";
             }
         }
 
-        // Render values visually onto screen elements
-        document.getElementById("scoreValue").innerText = `${finalGrade}/10`;
+        // Apply theme color styling to box borders, text values, and badges
+        scoreCard.style.borderColor = themeColor;
+        
+        let scoreValElement = document.getElementById("scoreValue");
+        scoreValElement.innerText = `${finalGrade}/10`;
+        scoreValElement.style.color = themeColor;
+        scoreValElement.style.textShadow = `0 0 15px ${themeColor}4d`; // Smooth glowing text background radius
+        
         let statusElement = document.getElementById("scoreStatus");
         statusElement.innerText = statusText;
-        statusElement.style.color = statusColor;
+        statusElement.style.color = themeColor;
+        statusElement.style.borderColor = themeColor;
+        statusElement.style.backgroundColor = `${themeColor}1a`; // Semi-transparent matching label tag overlay
 
     }, 800);
 }
