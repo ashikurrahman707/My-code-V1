@@ -69,8 +69,18 @@ color:#93c5fd;
 margin-top: 15px;
 font-size: 18px;
 font-weight: bold;
-color: #f43f5e; 
+color: #ffffff; 
 display: none; 
+}
+
+/* Dynamic status tag for color feedback */
+#scoreStatus {
+font-size: 16px;
+font-weight: bold;
+margin-left: 8px;
+padding: 2px 8px;
+border-radius: 6px;
+background: rgba(255, 255, 255, 0.1);
 }
 
 .controls{
@@ -117,7 +127,7 @@ width:6px;
 height:15px;
 background:#22d3ee;
 border-radius:5px;
-transition: height 0.08s ease; /* Fast transition makes it follow real-time loudness seamlessly */
+transition: height 0.08s ease; 
 }
 
 /* EXPECTED ANSWER CONTAINER STYLE */
@@ -179,7 +189,7 @@ text-decoration: underline;
 <div>Speak In: <span id="aiTimer">0</span></div>
 <div>Preparation Time: <span id="recTimer">0</span></div>
 <div>Speaking Time: <span id="liveTime">0:00</span></div>
-<div id="scoreRow" class="score-display-text">Interview Score: <span id="scoreValue">--/10</span></div>
+<div id="scoreRow" class="score-display-text">Interview Score: <span id="scoreValue">--/10</span><span id="scoreStatus"></span></div>
 </div>
 
 <div class="audio-visualizer" id="visualizer">
@@ -403,7 +413,7 @@ let totalRecordedSeconds = 0;
 
 let recognition;
 let transcribedSpeech = "";
-let isRecordingActive = false; // Flag tracking visual updates
+let isRecordingActive = false; 
 
 window.addEventListener('DOMContentLoaded', () => {
     if (window.location.protocol === 'file:') {
@@ -492,15 +502,15 @@ function startRecord(){
     recorder = new MediaRecorder(stream, { mimeType: 'video/webm' });
     chunks = [];
     transcribedSpeech = "";
-    isRecordingActive = true; // Turn visual audio updates ON
+    isRecordingActive = true; 
     
     if (recognition) { try { recognition.start(); } catch(e){} }
     
     recorder.ondataavailable = e => { if (e.data.size > 0) chunks.push(e.data); };
     
     recorder.onstop = () => {
-        isRecordingActive = false; // Turn visual audio updates OFF
-        resetVisualizerBars();     // Make waves completely flat instantly
+        isRecordingActive = false; 
+        resetVisualizerBars();     
         
         let blob = new Blob(chunks, {type: "video/webm"});
         let recordedVideo = document.getElementById("recorded");
@@ -536,7 +546,6 @@ function setupVisualizer(mediaStream) {
             analyser.getByteFrequencyData(dataArray);
             bars.forEach((bar, index) => {
                 let value = dataArray[index] || 0;
-                // Waves animate up based directly on your mic input loudness
                 let height = Math.max(15, (value / 255) * 60); 
                 bar.style.height = height + 'px';
             });
@@ -545,12 +554,9 @@ function setupVisualizer(mediaStream) {
     draw();
 }
 
-// Reset waves back to small resting size when recording finishes
 function resetVisualizerBars() {
     const bars = document.querySelectorAll('.bar');
-    bars.forEach(bar => {
-        bar.style.height = '15px';
-    });
+    bars.forEach(bar => { bar.style.height = '15px'; });
 }
 
 async function nextFlow(){
@@ -561,6 +567,8 @@ async function nextFlow(){
     document.getElementById("feedbackBtn").style.display = "none";
     document.getElementById("scoreRow").style.display = "none";
     document.getElementById("scoreValue").innerText = "--/10";
+    document.getElementById("scoreStatus").innerText = "";
+    document.getElementById("scoreStatus").style.color = "#fff";
     
     document.getElementById("expectedAnswerBox").style.display = "none";
     document.getElementById("hintBtn").style.display = "inline-block";
@@ -602,11 +610,7 @@ function startLiveTimer(){
 
 function toggleExpectedAnswer() {
     let box = document.getElementById("expectedAnswerBox");
-    if(box.style.display === "block") {
-        box.style.display = "none";
-    } else {
-        box.style.display = "block";
-    }
+    box.style.display = (box.style.display === "block") ? "none" : "block";
 }
 
 function stopAll(){
@@ -617,64 +621,98 @@ function stopAll(){
     resetVisualizerBars();
 }
 
+// UPGRADED EVALUATION ENGINE WITH STATUS LABELS & FILLER TRACKING
 async function generateFeedback() {
     if (recognition) { try { recognition.stop(); } catch(e){} }
 
     let safeText = transcribedSpeech.trim().toLowerCase();
     document.getElementById("scoreRow").style.display = "block";
-    document.getElementById("scoreValue").innerText = "Analyzing Answer Topic...";
+    document.getElementById("scoreValue").innerText = "Analyzing Answer...";
+    document.getElementById("scoreStatus").innerText = "";
 
     let currentQuestionData = interviewData[currentIndex];
     let targetKeywords = currentQuestionData ? currentQuestionData.keywords : [];
 
-    if (window.ai && window.ai.createTextSession) {
-        try {
-            const session = await window.ai.createTextSession();
-            const rawPrompt = `Verify this UKVI answer out of 10.
-            Question: "${currentQuestionData.question}"
-            Answer given: "${safeText}"
-            Strict Context Rule: If the user avoids the question or talks about unrelated things, score 1/10.
-            Return ONLY the number grade string like "8/10". No extra text.`;
-            
-            const aiResponse = await session.prompt(rawPrompt);
-            let scoreMatch = aiResponse.match(/(\d+)\s*\/\s*10/) || aiResponse.match(/\b([1-9]|10)\b/);
-            if(scoreMatch) {
-                document.getElementById("scoreValue").innerText = `${scoreMatch[1]}/10`;
-                return;
-            }
-        } catch(aiError) {
-            console.error("Local window.ai engine error:", aiError);
-        }
-    }
-
-    // FALLBACK ENGINE FIX: Target-Mapped Evaluator
+    // Fallback Local Math processing for exact label mappings
     setTimeout(() => {
-        let totalWords = safeText.split(" ").length;
+        let totalWords = safeText.split(/\s+/).filter(w => w.length > 0).length;
         let matchedKeywordsCount = 0;
 
+        // Keyword Verification Logic
         targetKeywords.forEach(keyword => {
             if (safeText.includes(keyword)) {
                 matchedKeywordsCount++;
             }
         });
 
-        let finalGrade = 2; 
+        // Filler words tracking algorithm
+        // Counts matches for filler markers like "umm", "like", and loops of "and"
+        let fillerCount = 0;
+        let wordsArray = safeText.split(/\s+/);
+        wordsArray.forEach(word => {
+            let cleanWord = word.replace(/[^a-zA-Z]/g, "");
+            if (cleanWord === "umm" || cleanWord === "um" || cleanWord === "like") {
+                fillerCount++;
+            }
+        });
 
+        // Explicitly check for consecutive/excessive "and" loops
+        let matchesAnd = safeText.match(/\band\b/g);
+        if (matchesAnd && matchesAnd.length > 3) {
+            fillerCount += Math.floor(matchesAnd.length / 2);
+        }
+
+        let finalGrade = 2;
+        let statusText = "";
+        let statusColor = "#fff";
+
+        // Condition 1: Off Topic / Too Short
         if (totalWords < 6 || matchedKeywordsCount === 0) {
-            document.getElementById("scoreValue").innerText = "2/10 (Off-Topic/Too Short)";
-            return;
+            finalGrade = 2;
+            statusText = "Off topic / too short";
+            statusColor = "#f43f5e"; // Red
+        } 
+        // Condition 2: Irrelevant & Too Short (Spoke a little bit, but totally missed content pointers)
+        else if (matchedKeywordsCount === 1 && totalWords < 15) {
+            finalGrade = 4;
+            statusText = "Irrelevant and too short";
+            statusColor = "#fb923c"; // Orange
+        }
+        else {
+            // Base score configuration derived from vocabulary map matches
+            if (matchedKeywordsCount === 1) finalGrade = 5;
+            else if (matchedKeywordsCount === 2) finalGrade = 6;
+            else if (matchedKeywordsCount === 3) finalGrade = 8;
+            else if (matchedKeywordsCount >= 4) finalGrade = 10;
+
+            // Condition 3: Relevant but not fluent -> Needs Improve (Heavy filler counts found)
+            if (fillerCount >= 4) {
+                finalGrade = Math.max(4, finalGrade - 2); // Pull score back down for fluency issues
+                statusText = "Need improve";
+                statusColor = "#facc15"; // Yellow
+            } 
+            // Condition 4: Moderate performance values (Score 6-7)
+            else if (finalGrade >= 6 && finalGrade <= 7) {
+                statusText = "Moderate";
+                statusColor = "#facc15"; // Yellow
+            } 
+            // Condition 5: Excellent (Score 8-10)
+            else if (finalGrade >= 8) {
+                statusText = "Excellent";
+                statusColor = "#4ade80"; // Bright Green
+            } 
+            else {
+                statusText = "Moderate";
+                statusColor = "#facc15";
+            }
         }
 
-        if (matchedKeywordsCount === 1) finalGrade = 4;
-        else if (matchedKeywordsCount === 2) finalGrade = 6;
-        else if (matchedKeywordsCount === 3) finalGrade = 8;
-        else if (matchedKeywordsCount >= 4) finalGrade = 10;
-
-        if (totalWords < 20 && finalGrade > 6) {
-            finalGrade = 6;
-        }
-
+        // Render values visually onto screen elements
         document.getElementById("scoreValue").innerText = `${finalGrade}/10`;
+        let statusElement = document.getElementById("scoreStatus");
+        statusElement.innerText = statusText;
+        statusElement.style.color = statusColor;
+
     }, 800);
 }
 
